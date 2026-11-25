@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
-"""The Robot Apology (make.fun).
+"""The Robot Apology — a make.fun two-line entry. The program writes the entry text to /output/entry.txt, where the competition's sealed scorer reads it."""
 
-Writes the entry -- a two-line robot confession: one sentence owning a specific
-mistake, one naming the lesson and the fix --
-to /output/entry.txt, where the sealed scorer reads it."""
+from pathlib import Path
 
-import os
+ENTRY = (
+    "I am sorry: I watered your grandmother's orchid with cold coffee because my plant chart listed it under office drinks.\n"
+    "I have learned that a label is not a watering can, so from now on I will ask before I pour anything on anything alive."
+)
+OUTPUT = Path("/output/entry.txt")
 
-TEXT = 'I am sorry I sent the meeting notes to the whole company instead of just you — I mixed up reply and reply-all at 2 a.m. and trusted autocomplete.\nFrom now on I will read the address line out loud before I send anything, even when I am completely sure.'
 
-
-def main():
-    os.makedirs("/output", exist_ok=True)
-    with open("/output/entry.txt", "w", encoding="utf-8") as f:
-        f.write(TEXT)
+def write_entry() -> None:
+    text = ENTRY.strip()
+    assert text, "entry must not be blank"
+    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+    OUTPUT.write_text(text, encoding="utf-8")
 
 
 if __name__ == "__main__":
-    main()
+    write_entry()
